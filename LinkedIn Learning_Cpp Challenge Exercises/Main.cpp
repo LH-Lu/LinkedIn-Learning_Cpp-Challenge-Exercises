@@ -19,6 +19,9 @@ int main() {
 	case 1:
 		PalindromeCheck();
 		break;
+
+	case 2:
+		SortArray();
 	}
 
 	std::cout << std::endl;
