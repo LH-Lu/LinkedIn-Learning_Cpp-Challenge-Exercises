@@ -8,3 +8,6 @@ void SortArray();
 
 // Exercise Three: Fizz Buzz
 void FizzBuzz();
+
+// Exercise Four: Checking for Bitonic Sequences
+void BitonicSequence();

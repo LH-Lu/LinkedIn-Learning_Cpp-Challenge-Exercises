@@ -142,6 +142,7 @@
     <ClCompile Include="Ex1_Checking for Palindromes.cpp" />
     <ClCompile Include="Ex2_Sorting Arrays.cpp" />
     <ClCompile Include="Ex3_FizzBuzz.cpp" />
+    <ClCompile Include="Ex4_Bitonic Sequences.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>

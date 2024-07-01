@@ -27,6 +27,9 @@
     <ClCompile Include="Ex3_FizzBuzz.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ex4_Bitonic Sequences.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonHeader.h">

@@ -27,6 +27,10 @@ int main() {
 	case 3:
 		FizzBuzz();
 		break;
+
+	case 4:
+		BitonicSequence();
+		break;
 	}
 
 	std::cout << std::endl;
