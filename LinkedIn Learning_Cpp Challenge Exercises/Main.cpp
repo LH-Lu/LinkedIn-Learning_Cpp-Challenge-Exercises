@@ -22,6 +22,11 @@ int main() {
 
 	case 2:
 		SortArray();
+		break;
+
+	case 3:
+		FizzBuzz();
+		break;
 	}
 
 	std::cout << std::endl;

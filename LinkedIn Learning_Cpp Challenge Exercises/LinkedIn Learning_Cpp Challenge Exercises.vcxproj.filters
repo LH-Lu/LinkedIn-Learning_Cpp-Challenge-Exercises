@@ -24,6 +24,9 @@
     <ClCompile Include="Ex2_Sorting Arrays.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ex3_FizzBuzz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonHeader.h">

@@ -3,6 +3,8 @@
 // Use a regular array and do not use any sorting functions from a library.
 
 #include"CommonHeader.h"
+#include"ExHeader.h"
+
 enum FindType { Ascend = 0, Descend };
 
 void SortArrayAlgo(int Arr[], int ArrSize, FindType FindType);

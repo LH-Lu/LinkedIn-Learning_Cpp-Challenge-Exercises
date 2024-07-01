@@ -5,3 +5,6 @@ void PalindromeCheck();
 
 // Exercise Two: Sort Int Array
 void SortArray();
+
+// Exercise Three: Fizz Buzz
+void FizzBuzz();

@@ -5,6 +5,7 @@
 // If no --> not Palindromes (e.g don't nod)
 
 #include"CommonHeader.h"
+#include"ExHeader.h"
 
 void PalindromeCheck() {
 	
