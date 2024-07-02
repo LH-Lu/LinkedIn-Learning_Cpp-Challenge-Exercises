@@ -31,6 +31,10 @@ int main() {
 	case 4:
 		BitonicSequence();
 		break;
+
+	case 5:
+		RecursiveFactoralSeq();
+		break;
 	}
 
 	std::cout << std::endl;

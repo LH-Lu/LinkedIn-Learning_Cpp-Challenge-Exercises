@@ -95,7 +95,7 @@ void BitonicSequence() {
 
 void ContinuousOrderCheck(int StartIdx, int EndIdx, std::vector<int>& vec, int VectorSize, int& AscendCount, int& DescendCount) {
 	int idx = StartIdx;
-	int CompareIdx = idx + 1;
+	int idxPlusOne = idx + 1;
 
 	bool ExistingAscendOrder = false;
 	bool ExistingDescendOrder = false;
@@ -103,11 +103,11 @@ void ContinuousOrderCheck(int StartIdx, int EndIdx, std::vector<int>& vec, int V
 	int FailSafeCount = 0;
 
 	while (check1) {
-		if (CompareIdx == VectorSize) {
-			CompareIdx = 0;
+		if (idxPlusOne == VectorSize) {
+			idxPlusOne = 0;
 		}
 
-		if (vec[CompareIdx] > vec[idx]) {
+		if (vec[idxPlusOne] > vec[idx]) {
 			if (ExistingAscendOrder == false) {
 				AscendCount++;
 			}
@@ -116,7 +116,7 @@ void ContinuousOrderCheck(int StartIdx, int EndIdx, std::vector<int>& vec, int V
 			ExistingDescendOrder = false;
 		}
 
-		if (vec[CompareIdx] < vec[idx]) {
+		if (vec[idxPlusOne] < vec[idx]) {
 			if (ExistingDescendOrder == false) {
 				DescendCount++;
 			}
@@ -124,8 +124,10 @@ void ContinuousOrderCheck(int StartIdx, int EndIdx, std::vector<int>& vec, int V
 			ExistingAscendOrder = false;
 		}
 
+		FailSafeCount++;
+
 		// Exit clause
-		if (CompareIdx == EndIdx) {
+		if (idxPlusOne == EndIdx) {
 			check1 = false;
 			break;
 		}
@@ -136,12 +138,12 @@ void ContinuousOrderCheck(int StartIdx, int EndIdx, std::vector<int>& vec, int V
 		}
 
 		// Prepare for next pass
-		if (CompareIdx == 0) { // The pass was comparing last element with first element of vector --> next pass is comparing first and second element
+		if (idxPlusOne == 0) { // The pass was comparing last element with first element of vector --> next pass is comparing first and second element
 			idx = 0;
 		}
 		else {
 			idx++;
 		}
-		CompareIdx++;
+		idxPlusOne++;
 	}
 }

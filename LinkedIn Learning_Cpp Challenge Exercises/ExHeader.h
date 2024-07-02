@@ -11,3 +11,6 @@ void FizzBuzz();
 
 // Exercise Four: Checking for Bitonic Sequences
 void BitonicSequence();
+
+// Exercise Five: Recursive Factoral Sequence generator
+void RecursiveFactoralSeq();
