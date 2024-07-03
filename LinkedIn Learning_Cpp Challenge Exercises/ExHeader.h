@@ -14,3 +14,6 @@ void BitonicSequence();
 
 // Exercise Five: Recursive Factoral Sequence generator
 void RecursiveFactoralSeq();
+
+// Exercise Six: Horseplay - Knight chess piece next move generator
+void HorsePlay();

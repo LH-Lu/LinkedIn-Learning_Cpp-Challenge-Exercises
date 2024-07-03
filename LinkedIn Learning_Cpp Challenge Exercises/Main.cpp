@@ -35,6 +35,10 @@ int main() {
 	case 5:
 		RecursiveFactoralSeq();
 		break;
+
+	case 6:
+		HorsePlay();
+		break;
 	}
 
 	std::cout << std::endl;

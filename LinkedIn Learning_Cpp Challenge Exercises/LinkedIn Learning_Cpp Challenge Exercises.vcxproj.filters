@@ -33,6 +33,9 @@
     <ClCompile Include="Ex5_Recursive Factoral Sequence.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ex6_Horseplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonHeader.h">
