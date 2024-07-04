@@ -17,3 +17,6 @@ void RecursiveFactoralSeq();
 
 // Exercise Six: Horseplay - Knight chess piece next move generator
 void HorsePlay();
+
+// Exercise Seven: Complex Number calculator
+void ComplexNumbers();
