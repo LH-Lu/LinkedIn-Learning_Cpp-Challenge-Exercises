@@ -39,6 +39,9 @@ int main() {
 	case 6:
 		HorsePlay();
 		break;
+
+	case 7:
+
 	}
 
 	std::cout << std::endl;

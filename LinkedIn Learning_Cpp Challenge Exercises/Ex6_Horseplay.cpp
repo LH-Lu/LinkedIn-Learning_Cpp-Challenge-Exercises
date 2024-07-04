@@ -1,4 +1,4 @@
-// Ex5: Recursive Factoral Sequence
+// Ex6: Knight Chesspiece location predictor
 // Write a program that takes in the chessboard location of a knight chess piece and prints the possible locations the knight can move to
 // Assume:
 //  The Knight chess piece is the only chess piece on the chessboard
