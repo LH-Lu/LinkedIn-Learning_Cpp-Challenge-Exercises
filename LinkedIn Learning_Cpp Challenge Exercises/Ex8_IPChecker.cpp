@@ -45,9 +45,14 @@ bool is_IPValid(std::string IPAddress) {
 	int idx;
 	int StrLen = IPAddress.length();
 
-	// Check 1 - Only Numbers and Periods present --> Correct no. of numbers (therefore, need to have only 3 "." detected, no more, no less) 
+	// Check: Only Numbers and Periods present --> Correct no. of numbers (therefore, need to have only 3 "." detected, no more, no less) --> Numbers b/w 0 and 255 (inclusive)
 	const int NumOfPeriods = 3;
 	int CountPeriods = 0;
+
+	const int IPValueMin = 0;
+	const int IPValueMax = 255;
+	int IPValue;
+	int DigitStartStrIdx = 0;
 
 	for (idx = 0; idx < StrLen; idx++) {
 
@@ -58,28 +63,22 @@ bool is_IPValid(std::string IPAddress) {
 			}
 		}
 		
-		if (IPAddress[idx] == '.' && idx != StrLen - 1) {
-			CountPeriods++;
-		}
-	}
-	if (CountPeriods != NumOfPeriods) {
-		return false;
-	}
+		// Count no. of numbers in IP Address string entered + Check numbers w/in valid value range
+		if (IPAddress[idx] == '.' || idx + 1 == StrLen) {
+			if (IPAddress[idx] == '.') {
+				CountPeriods++;
+			}
 
-	// Check 2 - Numbers are between 0 and 255 (inclusive)
-	int DigitStartIdx = 0;
-	int IPValue;
-	const int IPValueMin = 0;
-	const int IPValueMax = 255;
-
-	for (idx = 0; idx < StrLen; idx++) {
-		if (IPAddress[idx] == '.') {
-			IPValue = std::stoi(IPAddress.substr(DigitStartIdx, idx - DigitStartIdx));
+			IPValue = (idx + 1 == StrLen) ? std::stoi(IPAddress.substr(DigitStartStrIdx, idx - DigitStartStrIdx + 1)) : std::stoi(IPAddress.substr(DigitStartStrIdx, idx - DigitStartStrIdx));
 			if (IPValue < IPValueMin || IPValue > IPValueMax) {
 				return false;
 			}
-			DigitStartIdx = idx + 1;
+			DigitStartStrIdx = idx + 1;
 		}
+	}
+	// Check correct no. of numbers
+	if (CountPeriods != NumOfPeriods) {
+		return false;
 	}
 
 	return true;
