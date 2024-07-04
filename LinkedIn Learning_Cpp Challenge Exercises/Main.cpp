@@ -44,6 +44,9 @@ int main() {
 		ComplexNumbers();
 		break;
 
+	case 8:
+		IPCheck();
+		break;
 	}
 
 	std::cout << std::endl;

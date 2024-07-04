@@ -20,3 +20,6 @@ void HorsePlay();
 
 // Exercise Seven: Complex Number calculator
 void ComplexNumbers();
+
+// Exercise Eight: IP Address checker
+void IPCheck();
