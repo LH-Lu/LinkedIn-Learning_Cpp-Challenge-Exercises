@@ -11,6 +11,7 @@ int main() {
 	std::cout << "Please enter Exercise Number: ";
 	std::cin >> ExNumber;
 	std::cout << std::endl;
+	system("cls"); // clear screen. Avoid clrscr() method from <conio.h> as its non-std cpp lib
 	std::cout << "*** EXERCISE NUMBER " << ExNumber << " ***" << std::endl << std::endl;
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // flush buffer
 
