@@ -23,3 +23,6 @@ void ComplexNumbers();
 
 // Exercise Eight: IP Address checker
 void IPCheck();
+
+// Exercide Nine: Debugging code
+void debugCode();

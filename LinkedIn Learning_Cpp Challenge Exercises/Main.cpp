@@ -48,6 +48,10 @@ int main() {
 	case 8:
 		IPCheck();
 		break;
+
+	case 9:
+		debugCode();
+		break;
 	}
 
 	std::cout << std::endl;
