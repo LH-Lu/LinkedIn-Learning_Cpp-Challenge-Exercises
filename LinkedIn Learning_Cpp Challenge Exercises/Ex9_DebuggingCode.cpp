@@ -23,7 +23,7 @@
 // Returns: An integer with the vowel count.
 int vowel_count(std::string str){ // @ remove const string data type to just string data type to allow modification of string argument
     int count=0;
-    int i; // @ variable i was uninitialised in original code piece given
+    int i; // @ variable i was declared in original code piece given but its tidier to declare everything at the beginning (also I dont really like the use of the letter i...calling it idx would be better for code reading)
 
     //for(int i; i<str.length(); i++) // @ variable i not initialised with start value for the for-loop
     for (i = 0; i < str.length(); i++) {
@@ -36,7 +36,6 @@ int vowel_count(std::string str){ // @ remove const string data type to just str
         case 'o':
         case 'u':
             count++;
-            break; // @ missing break statement
         }
     } // @ missing } in the for loop block
     return count;
