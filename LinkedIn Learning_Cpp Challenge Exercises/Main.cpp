@@ -52,6 +52,10 @@ int main() {
 	case 9:
 		debugCode();
 		break;
+
+	case 10:
+		Main_TicTacToe();
+		break;
 	}
 
 	std::cout << std::endl;

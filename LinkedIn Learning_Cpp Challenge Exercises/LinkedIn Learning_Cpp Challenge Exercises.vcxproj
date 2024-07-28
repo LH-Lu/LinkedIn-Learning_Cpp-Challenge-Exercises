@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ex10_TicTacToeGame.cpp" />
     <ClCompile Include="Ex9_DebuggingCode.cpp" />
     <ClCompile Include="Ex1_Checking for Palindromes.cpp" />
     <ClCompile Include="Ex2_Sorting Arrays.cpp" />

@@ -24,5 +24,8 @@ void ComplexNumbers();
 // Exercise Eight: IP Address checker
 void IPCheck();
 
-// Exercide Nine: Debugging code
+// Exercise Nine: Debugging code
 void debugCode();
+
+// Exercise Ten: Tic Tac Toe single player game
+void Main_TicTacToe();
