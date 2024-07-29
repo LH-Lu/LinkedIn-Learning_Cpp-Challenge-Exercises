@@ -56,6 +56,11 @@ int main() {
 	case 10:
 		Main_TicTacToe();
 		break;
+
+	case 11:
+		FindRelatives();
+		break;
+
 	}
 
 	std::cout << std::endl;
