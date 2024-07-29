@@ -9,14 +9,14 @@
 
 // List of functions: print game board with locations. computer decisions. check win/lost/tie
 enum PlayerStatus {
-	Ongoing = 0, Tie, Win, Lose
+	Ongoing = 0, Tie, Win, Lose, Unavailable
 };
 
 class Player {
 
 public:
-	char Symbol;
-	PlayerStatus Status = Ongoing;
+	char Symbol = ' ';
+	PlayerStatus Status = Unavailable;
 
 public:
 	// Get player input on where to place their symbol
@@ -116,6 +116,10 @@ public:
 
 		case Lose:
 			return "LOSE";
+			break;
+
+		case Unavailable:
+			return "NOT PLAYING";
 			break;
 		}
 	}
@@ -252,20 +256,24 @@ private:
 		}
 
 		// Get the col idx
-		seconds = seconds / 10;
+		seconds = seconds % 10;
 		switch (seconds) {
 		case 0:
 		case 3:
+		case 6:
+		case 9:
 			ColIdx = 0;
 			break;
 
 		case 1:
 		case 4:
+		case 7:
 			ColIdx = 1;
 			break;
 
 		case 2:
 		case 5:
+		case 8:
 			ColIdx = 2;
 			break;
 
@@ -281,8 +289,100 @@ private:
 	}
 };
 
-void AssignSymb(Player& Player1, AIPlayer& Computer, const char& x, const char& o);
-void PrintGame(char GameBoard[][MAXGRID], const int& RowMax, const int& ColMax, Player& Player1, AIPlayer& Computer);
+
+// Function gets user input on which symbol the user wants to play with
+void AssignSymb(Player& Player1, Player& Player2, AIPlayer& Computer, const char& x, const char& o) {
+	bool check1 = false;
+	char UserSymbTemp;
+	int NumOfPlayers;
+
+	while (!check1) {
+		std::cout << "Number of Players (1 / 2): ";
+		std::cin >> NumOfPlayers;
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // flush buffer
+
+		if (NumOfPlayers == 1 || NumOfPlayers == 2) {
+			check1 = true;
+		}
+		else {
+			std::cout << "Wrong input entered! Enter either 1 or 2 only!" << std::endl;
+		}
+	}
+	check1 = false;
+
+	while (!check1) {
+		std::cout << "Player 1, choose your symbol. Note, 'x' goes first (x/o): ";
+		UserSymbTemp = std::getchar();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // flush buffer
+
+		if (UserSymbTemp == 'x' || UserSymbTemp == 'o') {
+			check1 = true;
+		}
+		else {
+			std::cout << "Wrong character entered! Enter either 'x' or 'o' only!" << std::endl;
+		}
+	}
+
+	Player1.Symbol = UserSymbTemp;
+	Player1.Status = Ongoing;
+
+	if (NumOfPlayers == 1) {
+		switch (Player1.Symbol) {
+		case 'x':
+			Computer.Symbol = o;
+			break;
+
+		case 'o':
+			Computer.Symbol = x;
+			break;
+		}
+		Computer.Status = Ongoing;
+	}
+	else if (NumOfPlayers == 2) {
+		switch (Player1.Symbol) {
+		case 'x':
+			Player2.Symbol = o;
+			break;
+
+		case 'o':
+			Player2.Symbol = x;
+			break;
+		}
+		Player2.Status = Ongoing;
+	}
+}
+
+
+// Function prints game info and the game board
+void PrintGame(char GameBoard[][MAXGRID], const int& RowMax, const int& ColMax, Player& Player1, Player& Player2, AIPlayer& Computer) {
+
+	// Print game info
+	std::cout << "Player 1: " << Player1.Symbol << " (" << Player1.PrintPlayerStatus() << ")" << std::endl;
+	std::cout << "Player 2: " << Player2.Symbol << " (" << Player2.PrintPlayerStatus() << ")" << std::endl;
+	std::cout << "Computer: " << Computer.Symbol << " (" << Computer.PrintPlayerStatus() << ")" << std::endl;
+	std::cout << std::endl;
+
+	// Print game board
+	int RowIdx, ColIdx;
+
+	std::cout << "   1   2   3" << std::endl;
+
+	for (RowIdx = 0; RowIdx < RowMax; RowIdx++) {
+		std::cout << RowIdx + 1;
+		for (ColIdx = 0; ColIdx < ColMax; ColIdx++) {
+			std::cout << "| " << GameBoard[RowIdx][ColIdx] << " ";
+		}
+
+		std::cout << std::endl;
+		if (RowIdx == 2) {
+			break;
+		}
+		std::cout << "_+___+___+___" << std::endl;
+	}
+
+	std::cout << std::endl;
+}
+
 
 void Main_TicTacToe() {
 
@@ -293,13 +393,13 @@ void Main_TicTacToe() {
 	const char x = 'x';
 	const char o = 'o';
 
-	Player Player1;
+	Player Player1, Player2;
 	AIPlayer Computer;
 
 	char GameBoard[RowMax][ColMax];
 
 	// Step 1: Ask user for choice of symbol ('x' goes first) --> assign computer the other symbol
-	AssignSymb(Player1, Computer, x, o);
+	AssignSymb(Player1, Player2, Computer, x, o);
 	system("cls");
 
 	// Step 2: Initialise GameGrid
@@ -318,13 +418,12 @@ void Main_TicTacToe() {
 	while (!check1) {
 		
 
-		if (Player1.Symbol == x) {
-			PrintGame(GameBoard, RowMax, ColMax, Player1, Computer);
-			
+		if (Player1.Symbol == x && Player2.Status == Unavailable && Computer.Status == Ongoing) {
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
 			Player1.Play(GameBoard, RowMax, ColMax);
 			system("cls");
 			Player1.CheckGameStatus(GameBoard, RowMax, ColMax, Computer.Status);
-			PrintGame(GameBoard, RowMax, ColMax, Player1, Computer);
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
 			if (Player1.Status != Ongoing) {
 				check1 = true;
 				break;
@@ -333,7 +432,7 @@ void Main_TicTacToe() {
 
 			Computer.Play(GameBoard, RowMax, ColMax);
 			Computer.CheckGameStatus(GameBoard, RowMax, ColMax, Player1.Status);
-			PrintGame(GameBoard, RowMax, ColMax, Player1, Computer);
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
 			if (Computer.Status != Ongoing) {
 				check1 = true;
 				break;
@@ -341,11 +440,38 @@ void Main_TicTacToe() {
 			system("cls");
 
 		}
-		else if (Computer.Symbol == x) {
+
+		if (Player1.Symbol == x && Player2.Status == Ongoing && Computer.Status == Unavailable) {
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
+			std::cout << "Turn: PLAYER 1" << std::endl;
+			Player1.Play(GameBoard, RowMax, ColMax);
+			system("cls");
+			Player1.CheckGameStatus(GameBoard, RowMax, ColMax, Player2.Status);
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
+			if (Player1.Status != Ongoing) {
+				check1 = true;
+				break;
+			}
+			system("cls");
+
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
+			std::cout << "Turn: PLAYER 2" << std::endl;
+			Player2.Play(GameBoard, RowMax, ColMax);
+			system("cls");
+			Player2.CheckGameStatus(GameBoard, RowMax, ColMax, Player1.Status);
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
+			if (Player2.Status != Ongoing) {
+				check1 = true;
+				break;
+			}
+			system("cls");
+		}
+
+		if (Computer.Symbol == x) {
 
 			Computer.Play(GameBoard, RowMax, ColMax);
 			Computer.CheckGameStatus(GameBoard, RowMax, ColMax, Player1.Status);
-			PrintGame(GameBoard, RowMax, ColMax, Player1, Computer);
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
 			if (Computer.Status != Ongoing) {
 				check1 = true;
 				break;
@@ -354,76 +480,38 @@ void Main_TicTacToe() {
 			Player1.Play(GameBoard, RowMax, ColMax);
 			system("cls");
 			Player1.CheckGameStatus(GameBoard, RowMax, ColMax, Computer.Status);
-			PrintGame(GameBoard, RowMax, ColMax, Player1, Computer);
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
 			if (Player1.Status != Ongoing) {
 				check1 = true;
 				break;
 			}
 			system("cls");
+		}
 
+		if (Player2.Symbol == x) {
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
+			std::cout << "Turn: PLAYER 2" << std::endl;
+			Player2.Play(GameBoard, RowMax, ColMax);
+			system("cls");
+			Player2.CheckGameStatus(GameBoard, RowMax, ColMax, Player1.Status);
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
+			if (Player2.Status != Ongoing) {
+				check1 = true;
+				break;
+			}
+			system("cls");
+
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
+			std::cout << "Turn: PLAYER 1" << std::endl;
+			Player1.Play(GameBoard, RowMax, ColMax);
+			system("cls");
+			Player1.CheckGameStatus(GameBoard, RowMax, ColMax, Player2.Status);
+			PrintGame(GameBoard, RowMax, ColMax, Player1, Player2, Computer);
+			if (Player1.Status != Ongoing) {
+				check1 = true;
+				break;
+			}
+			system("cls");
 		}
 	}
-
-
-
-}
-
-// Function gets user input on which symbol the user wants to play with
-void AssignSymb(Player& Player1, AIPlayer& Computer, const char& x, const char& o) {
-	bool check1 = false;
-	char UserSymbTemp;
-
-	while (!check1) {
-		std::cout << "Choose your symbol. Note, 'x' goes first (x/o): ";
-		UserSymbTemp = std::getchar();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // flush buffer
-
-		if (UserSymbTemp == 'x' || UserSymbTemp == 'o') {
-			check1 = true;
-		}
-		else {
-			std::cout << "Wrong character entered! Enter either 'x' or 'o' only!" << std::endl;
-		}
-	}
-
-	Player1.Symbol = UserSymbTemp;
-
-	switch (Player1.Symbol) {
-	case 'x':
-		Computer.Symbol = o;
-		break;
-		
-	case 'o':
-		Computer.Symbol = x;
-		break;
-	}
-}
-
-// Function prints game info and the game board
-void PrintGame(char GameBoard[][MAXGRID], const int& RowMax, const int& ColMax, Player& Player1, AIPlayer& Computer) {
-
-	// Print game info
-	std::cout << "Player: " << Player1.Symbol << " (" << Player1.PrintPlayerStatus() << ")" << std::endl;
-	std::cout << "Computer: " << Computer.Symbol << " (" << Computer.PrintPlayerStatus() << ")" << std::endl;
-	std::cout << std::endl;
-
-	// Print game board
-	int RowIdx, ColIdx;
-
-	std::cout << "   1   2   3" << std::endl;
-
-	for (RowIdx = 0; RowIdx < RowMax; RowIdx++) {
-		std::cout << RowIdx + 1;
-		for (ColIdx = 0; ColIdx < ColMax; ColIdx++) {
-			std::cout << "| " << GameBoard[RowIdx][ColIdx] << " ";
-		}
-		
-		std::cout << std::endl;
-		if (RowIdx == 2) {
-			break;
-		}
-		std::cout << "_+___+___+___" << std::endl;
-	}
-
-	std::cout << std::endl;
 }
