@@ -61,6 +61,8 @@ int main() {
 	std::cout << std::endl;
 	std::cout << "*** PROGRAM ENDING ***" << std::endl;
 	char endchar;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // flush buffer
+	std::cout << "Press 'e' to exit" << std::endl;
 	endchar = std::getchar();
 
 	return 0;
