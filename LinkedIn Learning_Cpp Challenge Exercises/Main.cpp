@@ -60,6 +60,8 @@ int main() {
 
 	std::cout << std::endl;
 	std::cout << "*** PROGRAM ENDING ***" << std::endl;
+	char endchar;
+	endchar = std::getchar();
 
 	return 0;
 }
