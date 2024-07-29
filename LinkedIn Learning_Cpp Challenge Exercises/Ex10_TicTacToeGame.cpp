@@ -1,10 +1,10 @@
 // Ex10: Tic Tac Toe Game
 
-// Write a single player console game where the computer plays tic tac toe against the user
+// Write a console game to play tic tac toe (either single player or double player)
 
 #include "CommonHeader.h"
 #include "ExHeader.h"
-#include <cstdlib> // to get rand() function to generate random numbers
+#include <chrono> // to get time() function to get time
 #define MAXGRID 3
 
 // List of functions: print game board with locations. computer decisions. check win/lost/tie
@@ -131,7 +131,7 @@ public:
 		
 		// Fill a place with only 1 space left (row-wise)
 		for (RowIdx = 0; RowIdx < RowMax; RowIdx++) {
-			check = LocationDeterminer(GameBoard[RowIdx], RowMax, 1, Symbol);
+			check = OneSpaceLocationDeterminer(GameBoard[RowIdx], RowMax, Symbol);
 
 			if (check == true) {
 				return;
@@ -145,7 +145,7 @@ public:
 			for (RowIdx = 0; RowIdx < RowMax; RowIdx++) {
 				tempArr[RowIdx] = GameBoard[RowIdx][ColIdx];
 			}
-			check = LocationDeterminer(tempArr, ColMax, 1, Symbol);
+			check = OneSpaceLocationDeterminer(tempArr, ColMax, Symbol);
 
 			if (check == true) {
 				for (RowIdx = 0; RowIdx < RowMax; RowIdx++) {
@@ -160,7 +160,7 @@ public:
 		for (idx = 0; idx < MAXGRID; idx++) {
 			tempArr[idx] = GameBoard[idx][idx];
 		}
-		check = LocationDeterminer(tempArr, MAXGRID, 1, Symbol);
+		check = OneSpaceLocationDeterminer(tempArr, MAXGRID, Symbol);
 		if (check == true) {
 			for (idx = 0; idx < MAXGRID; idx++) {
 				GameBoard[idx][idx] = tempArr[idx];
@@ -171,7 +171,7 @@ public:
 		for (idx = 0; idx < MAXGRID; idx++) {
 			tempArr[idx] = GameBoard[MAXGRID - idx - 1][idx];
 		}
-		check = LocationDeterminer(tempArr, MAXGRID, 1, Symbol);
+		check = OneSpaceLocationDeterminer(tempArr, MAXGRID, Symbol);
 		if (check == true) {
 			for (idx = 0; idx < MAXGRID; idx++) {
 				GameBoard[MAXGRID - idx - 1][idx] = tempArr[idx];
@@ -180,30 +180,18 @@ public:
 		}
 
 		// Fill a place if 2 or more spaces left (col or row-wise) --> do it randomly
-		bool check1 = false;
-		while (!check1) {
-			// generate a random number between 0 and 3 (exclusive)
-			RowIdx = rand() % 3;
-			ColIdx = rand() % 3;
-			if (RowIdx < 0 || RowIdx >= RowMax || ColIdx < 0 || ColIdx >= ColMax) {
-				continue;
-			}
-
-			// check if placed is filled
-			if (GameBoard[RowIdx][ColIdx] != ' ') {
-				continue;
-			}
-
-			// place symbol
-			GameBoard[RowIdx][ColIdx] = Symbol;
-			check1 = true;
+		check = false;
+		while (!check) {
+			check = RandomLocationDeterminer(GameBoard, Symbol);
 		}
 		
 	}
 
 private:
-	bool LocationDeterminer(char GameBoard[], int ArrMax, int EmptySpaces, const char& PlayerSymb) {
+	// Checks whether there is only 1 space row/col/diag-wise and fills it with player's symbol if present
+	bool OneSpaceLocationDeterminer(char GameBoard[], int ArrMax, const char& PlayerSymb) {
 		int idx, countBlank;
+		const int EmptySpaces = 1;
 		countBlank = 0;
 
 		for (idx = 0; idx < ArrMax; idx++) {
@@ -222,6 +210,73 @@ private:
 				break;
 			}
 		}
+		return true;
+	}
+
+	// Determines the location randomly if there are more than 2 spaces row/col/diag-wise. Does this through manipulating system time as rand() is not truly random for small numbers
+	// If space is not occupied, fills it with player's symbol and returns true. Else, does nothing and returns false
+	bool RandomLocationDeterminer(char GameBoard[][MAXGRID], char& PlayerSymb) {
+		
+		// Initialise variables
+		int minute, seconds;
+		int RowIdx, ColIdx;
+		std::time_t TimeNow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()); // get the current system time (in time_t data type)
+
+		char TimeC_Str[26];
+		ctime_s(TimeC_Str, sizeof TimeC_Str, &TimeNow); // ctime returns a char* (i.e a C-style string)
+		std::string TimeCpp_Str(TimeC_Str); // convert from C-style string to C++ string
+
+		// std::cout << "> Time Now: " << TimeCpp_Str << std::endl; [DEBUG]
+
+		minute = std::stoi(TimeCpp_Str.substr(14, 2)); // Convert the minutes to integer
+		seconds = std::stoi(TimeCpp_Str.substr(17, 2)); // Convert the seconds to integer
+
+		// Get the row idx
+		minute = minute / 10;
+		switch (minute) {
+		case 0:
+		case 3:
+			RowIdx = 0;
+			break;
+
+		case 1:
+		case 4:
+			RowIdx = 1;
+			break;
+
+		case 2:
+		case 5:
+			RowIdx = 2;
+			break;
+
+		}
+
+		// Get the col idx
+		seconds = seconds / 10;
+		switch (seconds) {
+		case 0:
+		case 3:
+			ColIdx = 0;
+			break;
+
+		case 1:
+		case 4:
+			ColIdx = 1;
+			break;
+
+		case 2:
+		case 5:
+			ColIdx = 2;
+			break;
+
+		}
+
+		// Check if space occupied
+		if (GameBoard[RowIdx][ColIdx] != ' ') {
+			return false;
+		}
+
+		GameBoard[RowIdx][ColIdx] = PlayerSymb;
 		return true;
 	}
 };
