@@ -35,3 +35,6 @@ void FindRelatives();
 
 // Exercise Twelve: Find a user's age in days
 void AgeInDays();
+
+// Exercise Thirteen: Run Conway's Game of Life
+void Main_CornwayGameOfLife();

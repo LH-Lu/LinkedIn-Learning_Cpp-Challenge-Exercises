@@ -8,7 +8,7 @@ int main() {
 
 	int ExNumber = -1;
 
-	std::cout << "Please enter Exercise Number (1 ~ 12): ";
+	std::cout << "Please enter Exercise Number (1 ~ 13): ";
 	std::cin >> ExNumber;
 	std::cout << std::endl;
 	system("cls"); // clear screen. Avoid clrscr() method from <conio.h> as its non-std cpp lib
@@ -77,6 +77,10 @@ int main() {
 		AgeInDays();
 		break;
 
+	case 13: 
+		std::cout << "Its Cornway's Game of LIFE!" << std::endl << std::endl;
+		Main_CornwayGameOfLife();
+		break;
 	}
 
 	std::cout << std::endl;
