@@ -56,6 +56,8 @@ void Main_CornwayGameOfLife() {
 	std::cout << std::endl;
 
 	SeedGame(GameNow, alive);
+	system("cls");
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // flush buffer
 
 	std::cout << "Start of simulation. Iteration #0" << std::endl;
 	PrintGrid(GameNow);
@@ -91,7 +93,7 @@ void Main_CornwayGameOfLife() {
 		PrintGrid(GameNow);
 		std::cout << std::endl << std::endl;
 
-		if (TotalIteration != -1) {
+		if (TotalIteration > -1) {
 			if (Iteration > TotalIteration) {
 				NextItrChar == 'E';
 				break;
@@ -214,7 +216,7 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 			Shape[2][3] = alive;
 			break;
 
-		case 11: // Blinker, toad, beacon
+		case 11: // Blinker
 			Shape[3][1] = alive;
 			Shape[3][2] = alive;
 			Shape[3][3] = alive;
@@ -241,7 +243,7 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 			Shape[3][4] = alive;
 			break;
 
-		case 21: // glider
+		case 21: // Glider
 			Shape[1][1] = alive;
 			Shape[2][2] = alive;
 			Shape[3][0] = alive;
@@ -249,7 +251,19 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 			Shape[3][2] = alive;
 			break;
 
+		case 22: // Light Weight Space Ship
+			Shape[2][0] = alive;
+			Shape[4][0] = alive;
+			Shape[4][3] = alive;
+			
+			Shape[1][1] = alive;
+			Shape[1][2] = alive;
+			Shape[1][3] = alive;
+			Shape[1][4] = alive;
 
+			Shape[2][4] = alive;
+			Shape[3][4] = alive;
+			break;
 
 		default:
 			std::cout << "Entered wrong shape number input!" << std::endl;
