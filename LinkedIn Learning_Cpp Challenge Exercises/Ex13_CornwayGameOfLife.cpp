@@ -214,10 +214,31 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 			Shape[2][3] = alive;
 			break;
 
-		case 11: // blinker
+		case 11: // Blinker, toad, beacon
 			Shape[3][1] = alive;
 			Shape[3][2] = alive;
 			Shape[3][3] = alive;
+			break;
+
+		case 12: // Toad
+			Shape[3][0] = alive;
+			Shape[3][1] = alive;
+			Shape[3][2] = alive;
+			Shape[2][1] = alive;
+			Shape[2][2] = alive;
+			Shape[2][3] = alive;
+			break;
+
+		case 13: // Beacon
+			Shape[1][1] = alive;
+			Shape[2][1] = alive;
+			Shape[2][2] = alive;
+			Shape[1][2] = alive;
+
+			Shape[3][3] = alive;
+			Shape[4][3] = alive;
+			Shape[4][4] = alive;
+			Shape[3][4] = alive;
 			break;
 
 		case 21: // glider
