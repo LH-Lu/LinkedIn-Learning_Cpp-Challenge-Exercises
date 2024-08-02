@@ -17,6 +17,98 @@
 #define MAXROW 10
 #define MAXCOL 10
 
+void PrintGrid(char Game[][MAXCOL]);
+
+// Seed the grid based on user input (with some standard shapes available)
+void SeedGame(char Game[][MAXCOL], const char& alive);
+
+void CopyGameGrid(char Original[][MAXCOL], char Copy[][MAXCOL]);
+
+int CheckNeighboursNum(const char Game[][MAXCOL], const char& alive, const int& GameRowIdx, const int& GameColIdx);
+
+// Apply game rules to determine the state of the cell for next iteration
+void CellState(char& cell, const int& NumOfNeighbours, const char& alive, const char& died); 
+
+
+void Main_CornwayGameOfLife() {
+
+	// Step 0: Initialise global varaibles
+	char GameNow[MAXROW][MAXCOL];
+	char GameNextItr[MAXROW][MAXCOL];
+	const char alive = 'X';
+	const char died = ' ';
+
+	char NextItrChar;
+
+	int RowIdx, ColIdx;
+	for (RowIdx = 0; RowIdx < MAXROW; RowIdx++) {
+		for (ColIdx = 0; ColIdx < MAXCOL; ColIdx++) {
+			GameNow[RowIdx][ColIdx] = died;
+			GameNextItr[RowIdx][ColIdx] = died;
+		}
+	}
+
+	// Step 1: Input seed + ask for number of iterations + print grid
+	int TotalIteration;
+	std::cout << "How many iterations to run? Enter -1 for unlimited iterations with manual step." << std::endl;
+	std::cout << "Number of iterations: ";
+	std::cin >> TotalIteration;
+	std::cout << std::endl;
+
+	SeedGame(GameNow, alive);
+
+	std::cout << "Start of simulation. Iteration #0" << std::endl;
+	PrintGrid(GameNow);
+	std::cout << std::endl << std::endl;
+	std::cout << "Press ENTER to start." << std::endl;
+	NextItrChar = std::getchar();
+
+	// Step 2: Iterate through the generations and print grid. Ensure a way to exit loop
+	int Iteration = 1;
+	int NumOfNeighbours;
+
+	while (NextItrChar == '\n') {
+		system("cls");
+		// copy current game state to working copy
+		CopyGameGrid(GameNow, GameNextItr);
+
+		for (RowIdx = 0; RowIdx < MAXROW; RowIdx++) {
+			for (ColIdx = 0; ColIdx < MAXCOL; ColIdx++) {
+				// check number of neighbours next to cell
+				NumOfNeighbours = CheckNeighboursNum(GameNow, alive, RowIdx, ColIdx);
+
+				// change new state of cell base on game rules
+				CellState(GameNextItr[RowIdx][ColIdx], NumOfNeighbours, alive, died);
+			}
+		}
+
+		// update original game state with working copy
+		CopyGameGrid(GameNextItr, GameNow);
+
+		// Print
+		std::cout << "Iteration #" << Iteration << std::endl;
+		Iteration++;
+		PrintGrid(GameNow);
+		std::cout << std::endl << std::endl;
+
+		if (TotalIteration != -1) {
+			if (Iteration > TotalIteration) {
+				NextItrChar == 'E';
+				break;
+			}
+			std::this_thread::sleep_for(std::chrono::milliseconds(200)); // pause for 0.2s
+		}
+		else {
+			std::cout << "Press ENTER to proceed to the next itreation. Press 'e' to end game." << std::endl;
+			NextItrChar = std::getchar();
+			if (NextItrChar == 'E' || NextItrChar == 'e') {
+				break;
+			}
+		}
+	}
+}
+
+
 void PrintGrid(char Game[][MAXCOL]) {
 	int RowIdx, ColIdx;
 
@@ -30,7 +122,7 @@ void PrintGrid(char Game[][MAXCOL]) {
 
 // Seed the grid based on user input (with some standard shapes available)
 void SeedGame(char Game[][MAXCOL], const char& alive) {
-	
+
 	bool check1 = false;
 	int ShapeChoice, Quadrant, RowIdx, ColIdx;
 	const int ShapeMaxRow = 5;
@@ -136,7 +228,7 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 			Shape[3][2] = alive;
 			break;
 
-		
+
 
 		default:
 			std::cout << "Entered wrong shape number input!" << std::endl;
@@ -169,10 +261,10 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 				}
 			}
 		}
-		
+
 		PrintGrid(Game);
 	}
-	
+
 }
 
 void CopyGameGrid(char Original[][MAXCOL], char Copy[][MAXCOL]) {
@@ -186,7 +278,7 @@ void CopyGameGrid(char Original[][MAXCOL], char Copy[][MAXCOL]) {
 
 int CheckNeighboursNum(const char Game[][MAXCOL], const char& alive, const int& GameRowIdx, const int& GameColIdx) {
 	int RowIdx, ColIdx;
-	
+
 	int count = 0;
 
 	int UpperRow = GameRowIdx - 1;
@@ -227,7 +319,6 @@ int CheckNeighboursNum(const char Game[][MAXCOL], const char& alive, const int& 
 
 }
 
-// Apply game rules to determine the state of the cell for next iteration
 void CellState(char& cell, const int& NumOfNeighbours, const char& alive, const char& died) {
 	// Rules (in current iteration):
 	//	Each cell has 8 neighbours (top, bottom and diagonals and all directions)
@@ -255,84 +346,4 @@ void CellState(char& cell, const int& NumOfNeighbours, const char& alive, const 
 		cell = alive;
 		return;
 	}
-}
-
-
-void Main_CornwayGameOfLife() {
-
-	// Step 0: Initialise global varaibles
-	char GameNow[MAXROW][MAXCOL];
-	char GameNextItr[MAXROW][MAXCOL];
-	const char alive = 'X';
-	const char died = ' ';
-
-	char NextItrChar;
-
-	int RowIdx, ColIdx;
-	for (RowIdx = 0; RowIdx < MAXROW; RowIdx++) {
-		for (ColIdx = 0; ColIdx < MAXCOL; ColIdx++) {
-			GameNow[RowIdx][ColIdx] = died;
-			GameNextItr[RowIdx][ColIdx] = died;
-		}
-	}
-
-	// Step 1: Input seed + ask for number of iterations + print grid
-	int TotalIteration;
-	std::cout << "How many iterations to run? Enter -1 for unlimited iterations with manual step." << std::endl;
-	std::cout << "Number of iterations: ";
-	std::cin >> TotalIteration;
-	std::cout << std::endl;
-
-	SeedGame(GameNow, alive);
-
-	std::cout << "Start of simulation. Iteration #0" << std::endl;
-	PrintGrid(GameNow);
-	std::cout << std::endl << std::endl;
-	std::cout << "Press ENTER to start." << std::endl;
-	NextItrChar = std::getchar();
-
-	// Step 2: Iterate through the generations and print grid. Ensure a way to exit loop
-	int Iteration = 1;
-	int NumOfNeighbours;
-
-	while (NextItrChar == '\n') {
-		system("cls");
-		// copy current game state to working copy
-		CopyGameGrid(GameNow, GameNextItr);
-
-		for (RowIdx = 0; RowIdx < MAXROW; RowIdx++) {
-			for (ColIdx = 0; ColIdx < MAXCOL; ColIdx++) {
-				// check number of neighbours next to cell
-				NumOfNeighbours = CheckNeighboursNum(GameNow, alive, RowIdx, ColIdx);
-
-				// change new state of cell base on game rules
-				CellState(GameNextItr[RowIdx][ColIdx], NumOfNeighbours, alive, died);
-			}
-		}
-
-		// update original game state with working copy
-		CopyGameGrid(GameNextItr, GameNow);
-
-		// Print
-		std::cout << "Iteration #" << Iteration << std::endl;
-		Iteration++;
-		PrintGrid(GameNow);
-		std::cout << std::endl << std::endl;
-
-		if (TotalIteration != -1) {
-			if (Iteration > TotalIteration) {
-				NextItrChar == 'E';
-				break;
-			}
-			std::this_thread::sleep_for(std::chrono::milliseconds(200)); // pause for 0.2s
-		}
-		else {
-			std::cout << "Press ENTER to proceed to the next itreation. Press 'e' to end game." << std::endl;
-			NextItrChar = std::getchar();
-			if (NextItrChar == 'E' || NextItrChar == 'e') {
-				break;
-			}
-		}
-	}
-
 }
