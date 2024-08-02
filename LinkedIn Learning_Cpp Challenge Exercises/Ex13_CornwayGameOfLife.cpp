@@ -40,10 +40,24 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 	while (!check1) {
 		// user choose shape --> choose quadrant to place the shape in main game grid
 		std::cout << "Standard seed shapes" << std::endl;
-		std::cout << "1 - Glider" << std::endl;
-		std::cout << "2 - Blinker" << std::endl;
 		std::cout << "0 - RETURN TO START RUN" << std::endl;
-		std::cout << "Choice (1 - 2): ";
+		std::cout << "*** STILL LIFES ***" << std::endl;
+		std::cout << "1 - Block" << std::endl;
+		std::cout << "2 - Beehive" << std::endl;
+		std::cout << "3 - Loaf" << std::endl;
+		std::cout << "4 - Boat" << std::endl;
+		std::cout << "5 - Tub" << std::endl;
+
+		std::cout << "*** OSCILLATORS ***" << std::endl;
+		std::cout << "11 - Blinker" << std::endl;
+		std::cout << "12 - Toad" << std::endl;
+		std::cout << "13 - Beacon" << std::endl;
+
+		std::cout << "*** SPACESHIPS ***" << std::endl;
+		std::cout << "21 - Glider" << std::endl;
+		std::cout << "22 - Light Weight Space Ship" << std::endl;
+
+		std::cout << "Choice: ";
 		std::cin >> ShapeChoice;
 		std::cout << std::endl;
 
@@ -67,7 +81,54 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 
 		// get working shape
 		switch (ShapeChoice) {
-		case 1: // glider
+		case 1: //Block
+			Shape[2][2] = alive;
+			Shape[2][3] = alive;
+			Shape[3][2] = alive;
+			Shape[3][3] = alive;
+			break;
+
+		case 2: // Beehive
+			Shape[2][1] = alive;
+			Shape[1][2] = alive;
+			Shape[1][3] = alive;
+			Shape[3][2] = alive;
+			Shape[3][3] = alive;
+			Shape[2][4] = alive;
+			break;
+
+		case 3: // Loaf
+			Shape[2][1] = alive;
+			Shape[3][2] = alive;
+			Shape[4][3] = alive;
+			Shape[1][2] = alive;
+			Shape[1][3] = alive;
+			Shape[2][4] = alive;
+			Shape[3][4] = alive;
+			break;
+
+		case 4: // Boat
+			Shape[1][1] = alive;
+			Shape[1][2] = alive;
+			Shape[2][1] = alive;
+			Shape[3][2] = alive;
+			Shape[2][3] = alive;
+			break;
+
+		case 5: // Tub
+			Shape[2][1] = alive;
+			Shape[1][2] = alive;
+			Shape[3][2] = alive;
+			Shape[2][3] = alive;
+			break;
+
+		case 11: // blinker
+			Shape[3][1] = alive;
+			Shape[3][2] = alive;
+			Shape[3][3] = alive;
+			break;
+
+		case 21: // glider
 			Shape[1][1] = alive;
 			Shape[2][2] = alive;
 			Shape[3][0] = alive;
@@ -75,11 +136,7 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 			Shape[3][2] = alive;
 			break;
 
-		case 2: // blinker
-			Shape[3][1] = alive;
-			Shape[3][2] = alive;
-			Shape[3][3] = alive;
-			break;
+		
 
 		default:
 			std::cout << "Entered wrong shape number input!" << std::endl;
