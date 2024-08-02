@@ -20,7 +20,8 @@
 void PrintGrid(char Game[][MAXCOL]);
 
 // Seed the grid based on user input (with some standard shapes available)
-void SeedGame(char Game[][MAXCOL], const char& alive);
+void SeedGame(char Game[][MAXCOL], const char& alive, const char& died);
+void CustomShape(char Shape[][5], const int& MaxSize, const char& alive, const char& died);
 
 void CopyGameGrid(char Original[][MAXCOL], char Copy[][MAXCOL]);
 
@@ -55,7 +56,7 @@ void Main_CornwayGameOfLife() {
 	std::cin >> TotalIteration;
 	std::cout << std::endl;
 
-	SeedGame(GameNow, alive);
+	SeedGame(GameNow, alive, died);
 	system("cls");
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // flush buffer
 
@@ -123,7 +124,7 @@ void PrintGrid(char Game[][MAXCOL]) {
 }
 
 // Seed the grid based on user input (with some standard shapes available)
-void SeedGame(char Game[][MAXCOL], const char& alive) {
+void SeedGame(char Game[][MAXCOL], const char& alive, const char& died) {
 
 	bool check1 = false;
 	int ShapeChoice, Quadrant, RowIdx, ColIdx;
@@ -151,6 +152,9 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 		std::cout << "21 - Glider" << std::endl;
 		std::cout << "22 - Light Weight Space Ship" << std::endl;
 
+		std::cout << "*** CUSTOM SHAPES ***" << std::endl;
+		std::cout << "99 - Custom shape" << std::endl;
+
 		std::cout << "Choice: ";
 		std::cin >> ShapeChoice;
 		std::cout << std::endl;
@@ -169,7 +173,7 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 		// initialise Shape working copy
 		for (RowIdx = 0; RowIdx < ShapeMaxRow; RowIdx++) {
 			for (ColIdx = 0; ColIdx < ShapeMaxCol; ColIdx++) {
-				Shape[RowIdx][ColIdx] = ' ';
+				Shape[RowIdx][ColIdx] = died;
 			}
 		}
 
@@ -265,6 +269,10 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 			Shape[3][4] = alive;
 			break;
 
+		case 99: // Custom Shape
+			CustomShape(Shape, ShapeMaxRow, alive, died);
+			break;
+
 		default:
 			std::cout << "Entered wrong shape number input!" << std::endl;
 			continue;
@@ -299,7 +307,48 @@ void SeedGame(char Game[][MAXCOL], const char& alive) {
 
 		PrintGrid(Game);
 	}
+}
 
+// create custom shapes within a 5 by 5 grid
+void CustomShape(char Shape[][5], const int& MaxSize, const char& alive, const char& dead) {
+	bool check1 = false;
+	int IdxRow, IdxCol, UserRow, UserCol;
+
+	while (!check1) {
+		// print grid
+		for (IdxRow = 0; IdxRow < MaxSize; IdxRow++) {
+			for (IdxCol = 0; IdxCol < MaxSize; IdxCol++) {
+				std::cout << Shape[IdxRow][IdxCol] << " ";
+			}
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+
+		// get row and col idx from user for shape formation
+		std::cout << "Enter the row and column index to place a live cell that will determine the initial seed shape." << std::endl;
+		std::cout << "To revert or remove a live cell, enter its corresponding row and column index." << std::endl;
+		std::cout << "To exit custom shape creation process, enter -1 in BOTH fields." << std::endl;
+		std::cout << "Row Index (1 - " << MaxSize << "): ";
+		std::cin >> UserRow;
+		std::cout << "Column Index (1 - " << MaxSize << "): ";
+		std::cin >> UserCol;
+
+		if (UserRow < 0 && UserCol < 0) { break; }
+
+		if (UserRow < 1 || UserRow > MaxSize || UserCol < 1 || UserCol > MaxSize) {
+			std::cout << "Index entered exceeds maximum allowable." << std::endl << std::endl;
+			continue;
+		}
+
+		if (Shape[UserRow - 1][UserCol - 1] == dead) { 
+			Shape[UserRow - 1][UserCol - 1] = alive;
+		}
+		else if (Shape[UserRow - 1][UserCol - 1] == alive) { 
+			Shape[UserRow - 1][UserCol - 1] = dead; 
+		}
+
+		std::cout << std::endl;
+	}
 }
 
 void CopyGameGrid(char Original[][MAXCOL], char Copy[][MAXCOL]) {
