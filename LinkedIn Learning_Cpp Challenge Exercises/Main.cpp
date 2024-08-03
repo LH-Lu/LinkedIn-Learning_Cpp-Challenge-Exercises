@@ -8,7 +8,7 @@ int main() {
 
 	int ExNumber = -1;
 
-	std::cout << "Please enter Program Number (1 ~ 14): ";
+	std::cout << "Please enter Program Number (1 ~ 15): ";
 	std::cin >> ExNumber;
 	std::cout << std::endl;
 	system("cls"); // clear screen. Avoid clrscr() method from <conio.h> as its non-std cpp lib
@@ -58,7 +58,7 @@ int main() {
 		break;
 
 	case 9:
-		std::cout << "Move along...nothing to see here. Just me debugging some code without bug spray." << std::endl << std::endl;
+		std::cout << "Move along...nothing to see here. Just me debugging some code without bug spray. (program does not require user input, the code is more impt)" << std::endl << std::endl;
 		debugCode();
 		break;
 
@@ -85,6 +85,11 @@ int main() {
 	case 14:
 		std::cout << "How fast are your reflexes? Test yourself in this reflex game!" << std::endl;
 		ReflexGame();
+		break;
+
+	case 15:
+		std::cout << "Validating a JSON file. (program does not require user input, the code is more impt)" << std::endl;
+		ValidateJSON();
 		break;
 
 	}

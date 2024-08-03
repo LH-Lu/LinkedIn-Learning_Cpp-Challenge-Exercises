@@ -41,3 +41,6 @@ void Main_CornwayGameOfLife();
 
 // Exercise Fourteen: Reflex Game
 void ReflexGame();
+
+// Exercise Fifteen: JSON File Validator
+void ValidateJSON();
