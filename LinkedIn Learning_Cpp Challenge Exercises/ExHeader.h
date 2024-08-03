@@ -38,3 +38,6 @@ void AgeInDays();
 
 // Exercise Thirteen: Run Conway's Game of Life
 void Main_CornwayGameOfLife();
+
+// Exercise Fourteen: Reflex Game
+void ReflexGame();
