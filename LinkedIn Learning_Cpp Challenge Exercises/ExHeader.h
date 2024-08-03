@@ -44,3 +44,6 @@ void ReflexGame();
 
 // Exercise Fifteen: JSON File Validator
 void ValidateJSON();
+
+// Exercise Sixteen: Birthday Problem
+void BirthdayProblem();

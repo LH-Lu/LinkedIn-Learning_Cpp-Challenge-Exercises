@@ -8,7 +8,7 @@ int main() {
 
 	int ExNumber = -1;
 
-	std::cout << "Please enter Program Number (1 ~ 15): ";
+	std::cout << "Please enter Program Number (1 ~ 16): ";
 	std::cin >> ExNumber;
 	std::cout << std::endl;
 	system("cls"); // clear screen. Avoid clrscr() method from <conio.h> as its non-std cpp lib
@@ -90,6 +90,11 @@ int main() {
 	case 15:
 		std::cout << "Validating a JSON file. (program does not require user input, the code is more impt)" << std::endl;
 		ValidateJSON();
+		break;
+
+	case 16:
+		std::cout << "Let's simulate the Birthday Problem!" << std::endl;
+		BirthdayProblem();
 		break;
 
 	}

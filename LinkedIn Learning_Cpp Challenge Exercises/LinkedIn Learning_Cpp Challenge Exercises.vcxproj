@@ -145,6 +145,7 @@
     <ClCompile Include="Ex13_CornwayGameOfLife.cpp" />
     <ClCompile Include="Ex14_ReflexGame.cpp" />
     <ClCompile Include="Ex15_ValidateJSONfile.cpp" />
+    <ClCompile Include="Ex16_BirthdayProblem.cpp" />
     <ClCompile Include="Ex9_DebuggingCode.cpp" />
     <ClCompile Include="Ex1_Checking for Palindromes.cpp" />
     <ClCompile Include="Ex2_Sorting Arrays.cpp" />
